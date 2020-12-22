@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Interface extends JFrame implements ActionListener {
+
+    /**
+     * Declatation of all GUI elements used in frame
+     */
     Boolean skip;
     Tournament tournament;
     ArrayList<String> chosenClubs = new ArrayList<>();
@@ -131,29 +135,25 @@ public class Interface extends JFrame implements ActionListener {
         }
     };
 
-    public Interface() throws Exception {
-
+    /**
+     * Constructor itself needs no argument. It specifies positions off all labels, buttons, etc.
+     */
+    public Interface(){
+        /**
+         * General settings
+         */
         setSize(1000, 800);
         setTitle("League Simulator");
         setLayout(null);
         setResizable(false);
 
+        /**
+         * Labels
+         */
         title = new JLabel("LEAGUE SIMULATOR");
         title.setFont(new Font("Verdana", Font.BOLD, 30));
         title.setBounds(330, 100, 500, 50);
         add(title);
-
-        openSimulator = new JButton("Open simulator");
-        openSimulator.setBounds(400, 300, 200, 100);
-        openSimulator.setFont(new Font("Verdana",Font.BOLD,15));
-        add(openSimulator);
-        openSimulator.addActionListener(this);
-
-        exit = new JButton("Exit");
-        exit.setBounds(400, 500, 200, 100);
-        exit.setFont(new Font("Verdana", Font.BOLD, 15));
-        add(exit);
-        exit.addActionListener(this);
 
         authors = new JLabel("Sebastian Deręgowski, Dawid Janus");
         authors.setFont(new Font("Verdana", Font.BOLD, 12));
@@ -166,6 +166,87 @@ public class Interface extends JFrame implements ActionListener {
         add(info);
         info.setVisible(false);
 
+        note = new JLabel("You have to choose 4 clubs!");
+        note.setFont(new Font("Verdana", Font.BOLD, 13));
+        note.setBounds(100, 650, 200, 50);
+        add(note);
+        note.setVisible(false);
+
+        headerHost = new JLabel("");
+        headerHost.setFont(new Font("Verdana", Font.BOLD, 20));
+        add(headerHost);
+        headerHost.setVisible(false);
+
+        headerGuest = new JLabel("");
+        headerGuest.setFont(new Font("Verdana", Font.BOLD, 20));
+        add(headerGuest);
+        headerGuest.setVisible(false);
+
+        logoHost = new JLabel();
+        logoHost.setBounds(115, 25, 100, 100);
+        add(logoHost);
+        logoHost.setVisible(false);
+
+        logoGuest = new JLabel();
+        logoGuest.setBounds(515, 25, 100, 100);
+        add(logoGuest);
+        logoGuest.setVisible(false);
+
+        score = new JLabel();
+        score.setFont(new Font("Verdana", Font.BOLD, 30));
+        add(score);
+        score.setVisible(false);
+
+        time = new JLabel();
+        time.setFont(new Font("Verdana", Font.BOLD, 15));
+        add(time);
+        time.setVisible(false);
+
+        int i = 0;
+        for (JLabel minute : minutes) {
+            minute.setText("");
+            minute.setFont(new Font("Verdana", Font.BOLD, 10));
+            minute.setBounds(75, 450 + i * 35, 700, 25);
+            add(minute);
+            minute.setVisible(false);
+            i++;
+        }
+
+        i = 0;
+        for (JLabel label : tableLabels) {
+            label.setText("");
+            label.setFont(new Font("Verdana", Font.BOLD, 10));
+            label.setBounds(100, 100 + i * 25, 700, 25);
+            add(label);
+            label.setVisible(false);
+            i++;
+        }
+
+        i = 0;
+        for (JLabel statistic : classificationstat) {
+            statistic.setText("");
+            statistic.setFont(new Font("Verdana", Font.BOLD, 10));
+            statistic.setBounds(100, 100 + i * 25, 700, 25);
+            add(statistic);
+            statistic.setVisible(false);
+            i++;
+        }
+
+        /**
+         * Buttons
+         */
+        openSimulator = new JButton("Open simulator");
+        openSimulator.setBounds(400, 300, 200, 100);
+        openSimulator.setFont(new Font("Verdana",Font.BOLD,15));
+        add(openSimulator);
+        openSimulator.addActionListener(this);
+
+        exit = new JButton("Exit");
+        exit.setBounds(400, 500, 200, 100);
+        exit.setFont(new Font("Verdana", Font.BOLD, 15));
+        add(exit);
+        exit.addActionListener(this);
+
         chooseClubs = new JButton("Choose Clubs");
         chooseClubs.setBounds(400, 625, 200, 100);
         chooseClubs.setFont(new Font("Verdana", Font.BOLD, 15));
@@ -173,13 +254,48 @@ public class Interface extends JFrame implements ActionListener {
         chooseClubs.addActionListener(this);
         chooseClubs.setVisible(false);
 
-        note = new JLabel("You have to choose 4 clubs!");
-        note.setFont(new Font("Verdana", Font.BOLD, 13));
-        note.setBounds(100, 650, 200, 50);
-        add(note);
-        note.setVisible(false);
+        statistics = new JButton("Statistics");
+        statistics.setFont(new Font("Verdana", Font.BOLD, 15));
+        statistics.setBounds(700, 400, 200, 100);
+        add(statistics);
+        statistics.addActionListener(this);
+        statistics.setVisible(false);
 
-        int i = 0;
+        i = 0;
+        for (JRadioButton button : RadioBox) {
+            button.setText(classification.get(i));
+            button.setBounds(100, 500 + 25 * i, 300, 20);
+            add(button);
+            button.addActionListener(this);
+            button.setVisible(false);
+            i++;
+        }
+
+        skipMatch = new JButton("Skip match");
+        skipMatch.setFont(new Font("Verdana", Font.BOLD, 15));
+        skipMatch.setBounds(240, 650, 200, 100);
+        add(skipMatch);
+        skipMatch.addActionListener(this);
+        skipMatch.setVisible(false);
+
+        nextMatch = new JButton("Next Match");
+        nextMatch.setFont(new Font("Verdana", Font.BOLD, 15));
+        nextMatch.setBounds(700, 100, 200, 100);
+        add(nextMatch);
+        nextMatch.addActionListener(this);
+        nextMatch.setVisible(false);
+
+        table = new JButton("Table & Fixtures");
+        table.setFont(new Font("Verdana", Font.BOLD, 15));
+        table.setBounds(700, 250, 200, 100);
+        add(table);
+        table.addActionListener(this);
+        table.setVisible(false);
+
+        /**
+         * Logos and club checkboxes
+         */
+        i = 0;
         for (JLabel logo : logos) {
             logo.setIcon(new ImageIcon((new ImageIcon("Logos/" + clubs.get(i) + ".png")).getImage().
                     getScaledInstance(75, 75, Image.SCALE_AREA_AVERAGING)));
@@ -199,6 +315,9 @@ public class Interface extends JFrame implements ActionListener {
             i++;
         }
 
+        /**
+         * Tables used in simulator.
+         */
         columns = new String[]{"POS.", "TEAM", "GP", "W", "D", "L", "GF", "GA", "GD", "Pts"};
         rows = new String[][]{{"","","","","","","","","",""},{"","","","","","","","","",""},
                 {"","","","","","","","","",""},{"","","","","","","","","",""}};
@@ -223,7 +342,6 @@ public class Interface extends JFrame implements ActionListener {
         leagueTable.getColumnModel().getColumn(8).setCellRenderer( centerRenderer );
         leagueTable.getColumnModel().getColumn(9).setCellRenderer( centerRenderer );
         leagueTable.setVisible(false);
-
 
         scrollPane = new JScrollPane(leagueTable);
         scrollPane.setLocation(50, 100);
@@ -258,116 +376,21 @@ public class Interface extends JFrame implements ActionListener {
         getContentPane().add(scrollPane2,BorderLayout.CENTER);
         scrollPane2.setVisible(false);
         stats.setVisible(false);
-
-        nextMatch = new JButton("Next Match");
-        nextMatch.setFont(new Font("Verdana", Font.BOLD, 15));
-        nextMatch.setBounds(700, 100, 200, 100);
-        add(nextMatch);
-        nextMatch.addActionListener(this);
-        nextMatch.setVisible(false);
-
-        headerHost = new JLabel("");
-        headerHost.setFont(new Font("Verdana", Font.BOLD, 20));
-        add(headerHost);
-        headerHost.setVisible(false);
-
-        headerGuest = new JLabel("");
-        headerGuest.setFont(new Font("Verdana", Font.BOLD, 20));
-        add(headerGuest);
-        headerGuest.setVisible(false);
-
-        logoHost = new JLabel();
-        logoHost.setBounds(115, 25, 100, 100);
-        add(logoHost);
-        logoHost.setVisible(false);
-
-        logoGuest = new JLabel();
-        logoGuest.setBounds(515, 25, 100, 100);
-        add(logoGuest);
-        logoGuest.setVisible(false);
-
-        score = new JLabel();
-        score.setFont(new Font("Verdana", Font.BOLD, 30));
-        add(score);
-        score.setVisible(false);
-
-        time = new JLabel();
-        time.setFont(new Font("Verdana", Font.BOLD, 15));
-        add(time);
-        time.setVisible(false);
-
-        i = 0;
-        for (JLabel minute : minutes) {
-            minute.setText("");
-            minute.setFont(new Font("Verdana", Font.BOLD, 10));
-            minute.setBounds(75, 450 + i * 35, 700, 25);
-            add(minute);
-            minute.setVisible(false);
-            i++;
-        }
-
-        table = new JButton("Table & Fixtures");
-        table.setFont(new Font("Verdana", Font.BOLD, 15));
-        table.setBounds(700, 250, 200, 100);
-        add(table);
-        table.addActionListener(this);
-        table.setVisible(false);
-
-        i = 0;
-        for (JLabel label : tableLabels) {
-            label.setText("");
-            label.setFont(new Font("Verdana", Font.BOLD, 10));
-            label.setBounds(100, 100 + i * 25, 700, 25);
-            add(label);
-            label.setVisible(false);
-            i++;
-        }
-
-        statistics = new JButton("Statistics");
-        statistics.setFont(new Font("Verdana", Font.BOLD, 15));
-        statistics.setBounds(700, 400, 200, 100);
-        add(statistics);
-        statistics.addActionListener(this);
-        statistics.setVisible(false);
-
-        i = 0;
-        for (JLabel statistic : classificationstat) {
-            statistic.setText("");
-            statistic.setFont(new Font("Verdana", Font.BOLD, 10));
-            statistic.setBounds(100, 100 + i * 25, 700, 25);
-            add(statistic);
-            statistic.setVisible(false);
-            i++;
-        }
-        i = 0;
-
-        for (JRadioButton button : RadioBox) {
-            button.setText(classification.get(i));
-            button.setBounds(100, 500 + 25 * i, 300, 20);
-            add(button);
-            button.addActionListener(this);
-            button.setVisible(false);
-            i++;
-        }
-
-
-        skipMatch = new JButton("Skip match");
-        skipMatch.setFont(new Font("Verdana", Font.BOLD, 15));
-        skipMatch.setBounds(240, 650, 200, 100);
-        add(skipMatch);
-        skipMatch.addActionListener(this);
-        skipMatch.setVisible(false);
-
-
     }
 
+    /**
+     * Main method of GUI. Depending on button clicked, the dedicated action is performed.
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
         Object source = e.getSource();
+
         if (source == openSimulator) {
 
+            /**
+             * Updating visibility
+             */
             title.setVisible(false);
             authors.setVisible(false);
             openSimulator.setVisible(false);
@@ -380,46 +403,49 @@ public class Interface extends JFrame implements ActionListener {
             for (JLabel logo : logos) {
                 logo.setVisible(true);
             }
-
             for (JCheckBox checkBox : checkBoxes) {
                 checkBox.setVisible(true);
             }
 
         } else if (source == chooseClubs) {
+            /**
+             * Updating visibility
+             */
+            note.setVisible(false);
+            info.setVisible(false);
+            chooseClubs.setVisible(false);
+            for (JCheckBox checkBox : checkBoxes) {
+                checkBox.setVisible(false);
+            }
+            for (JLabel logo : logos) {
+                logo.setVisible(false);
+            }
+            nextMatch.setVisible(true);
+            table.setVisible(true);
+            statistics.setVisible(true);
+            exit.setVisible(true);
+
+            /**
+             * Action performed
+             */
             if (chosenClubs.size() != 4) {
                 note.setVisible(true);
-
-
             } else {
-
                 try {
                     tournament = new Tournament(new Club(chosenClubs.get(0), this),
                             new Club(chosenClubs.get(1), this), new Club(chosenClubs.get(2), this), new Club(chosenClubs.get(3), this), this);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
                 tournament.addSchedule();
-                note.setVisible(false);
-                info.setVisible(false);
-                chooseClubs.setVisible(false);
-                for (JCheckBox checkBox : checkBoxes) {
-                    checkBox.setVisible(false);
-                }
-                for (JLabel logo : logos) {
-                    logo.setVisible(false);
-                }
-                nextMatch.setVisible(true);
-                table.setVisible(true);
-                statistics.setVisible(true);
-                exit.setVisible(true);
             }
 
-
+            /**
+             * Updating number of chosen clubs in turn to prevent user from choosing incorrect number.
+             */
         } else if (checkBoxes.contains(source)) {
             JCheckBox a = (JCheckBox) source;
             if (chosenClubs.size() == 4) {
-
                 a.setSelected(false);
             }
             if (a.isSelected()) {
@@ -427,7 +453,11 @@ public class Interface extends JFrame implements ActionListener {
             } else {
                 chosenClubs.remove(a.getText());
             }
+
         } else if (source == nextMatch) {
+            /**
+             * Updating visibility
+             */
             skip = false;
             info.setVisible(false);
             for (JRadioButton button : RadioBox) {
@@ -437,14 +467,12 @@ public class Interface extends JFrame implements ActionListener {
                 minute.setText("");
                 minute.setVisible(true);
             }
-
             for(JLabel stat: classificationstat){
                 stat.setVisible(false);
             }
             for (JLabel x : tableLabels) {
                 x.setVisible(false);
             }
-
             headerHost.setVisible(true);
             headerGuest.setVisible(true);
             logoHost.setVisible(true);
@@ -459,10 +487,9 @@ public class Interface extends JFrame implements ActionListener {
             scrollPane2.setVisible(true);
             stats.setVisible(true);
 
-
-
-
-
+            /**
+             * Action performed
+             */
             try {
                 tournament.run();
             } catch (InterruptedException ex) {
@@ -470,6 +497,9 @@ public class Interface extends JFrame implements ActionListener {
             }
 
         } else if (source == table) {
+            /**
+             * Updating visibility
+             */
             for (JLabel minute : minutes) {
                 minute.setVisible(false);
             }
@@ -494,13 +524,18 @@ public class Interface extends JFrame implements ActionListener {
             skipMatch.setVisible(false);
             info.setVisible(false);
             scrollPane2.setVisible(false);
-
-
-            tournament.table();
             leagueTable.setVisible(true);
             scrollPane.setVisible(true);
 
+            /**
+             * Action performed
+             */
+            tournament.table();
+
         } else if (source == statistics) {
+            /**
+             * Updating visibility
+             */
             for (JLabel minute : minutes) {
                 minute.setVisible(false);
             }
@@ -521,13 +556,17 @@ public class Interface extends JFrame implements ActionListener {
             scrollPane.setVisible(false);
             scrollPane2.setVisible(false);
 
+            /**
+             * Action performed
+             */
             for (JRadioButton button : RadioBox) {
                 button.setVisible(true);
                 button.setSelected(false);
-
-
             }
 
+            /**
+             * Updating visibility and selection
+             */
         } else if (RadioBox.contains(source)) {
             JRadioButton button = (JRadioButton) source;
 
@@ -542,19 +581,16 @@ public class Interface extends JFrame implements ActionListener {
                     stat.setVisible(true);
                 }
 
-                ArrayList<Method> abc = new ArrayList<>(Arrays.asList(tournament.getClass().getDeclaredMethods()));
-                for (Method m : abc) {
-                    if (m.getName().equals(classification.get(RadioBox.indexOf(button) + 8))) {
+                ArrayList<Method> classificationList = new ArrayList<>(Arrays.asList(tournament.getClass().getDeclaredMethods()));
+                for (Method method : classificationList) {
+                    if (method.getName().equals(classification.get(RadioBox.indexOf(button) + 8))) {
                         try {
-                            m.invoke(tournament);
+                            method.invoke(tournament);
                         } catch (IllegalAccessException | InvocationTargetException ex) {
                             ex.printStackTrace();
-
                         }
-
                     }
                 }
-
 
             }
             else{
