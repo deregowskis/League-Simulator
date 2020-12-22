@@ -203,18 +203,61 @@ public class Interface extends JFrame implements ActionListener {
         rows = new String[][]{{"","","","","","","","","",""},{"","","","","","","","","",""},
                 {"","","","","","","","","",""},{"","","","","","","","","",""}};
 
-        leagueTable = new JTable(rows,columns);
+        leagueTable = new JTable(rows,columns){
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }
+        };
+        leagueTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+        leagueTable.getColumnModel().getColumn(1).setPreferredWidth(180);
         leagueTable.setFillsViewportHeight(true);
+        leagueTable.setRowHeight(25);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        leagueTable.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(4).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(5).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(6).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(7).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(8).setCellRenderer( centerRenderer );
+        leagueTable.getColumnModel().getColumn(9).setCellRenderer( centerRenderer );
+        leagueTable.setVisible(false);
+
+
         scrollPane = new JScrollPane(leagueTable);
+        scrollPane.setLocation(50, 100);
+        scrollPane.setSize(600,125);
+        getContentPane().add(scrollPane,BorderLayout.CENTER);
+        scrollPane.setVisible(false);
 
         stats_headers = new String[]{"","",""};
         stats_data = new String[][]{{"","POSSESION",""},{"","SHOOTS",""},{"","ON TARGET",""},
                 {"","FOULS",""},{"","YELLOW CARDS",""},{"","RED CARDS",""}};
 
-        stats = new JTable(stats_data,stats_headers);
+        stats = new JTable(stats_data,stats_headers){
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }
+        };
+        stats.setTableHeader(null);
+        stats.getColumnModel().getColumn(0).setPreferredWidth(50);
+        stats.getColumnModel().getColumn(1).setPreferredWidth(180);
+        stats.getColumnModel().getColumn(2).setPreferredWidth(50);
         stats.setFillsViewportHeight(true);
-        scrollPane2 = new JScrollPane(stats);
+        stats.setRowHeight(20);
+        DefaultTableCellRenderer centerRenderer2 = new DefaultTableCellRenderer();
+        centerRenderer2.setHorizontalAlignment( JLabel.CENTER );
+        stats.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+        stats.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
+        stats.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
 
+        scrollPane2 = new JScrollPane(stats);
+        scrollPane2.setLocation(200, 250);
+        scrollPane2.setSize(300,122);
+        getContentPane().add(scrollPane2,BorderLayout.CENTER);
+        scrollPane2.setVisible(false);
+        stats.setVisible(false);
 
         nextMatch = new JButton("Next Match");
         nextMatch.setFont(new Font("Verdana", Font.BOLD, 15));
@@ -413,29 +456,10 @@ public class Interface extends JFrame implements ActionListener {
             statistics.setEnabled(false);
             table.setEnabled(false);
             scrollPane.setVisible(false);
-
-            stats = new JTable(stats_data,stats_headers){
-                public boolean editCellAt(int row, int column, java.util.EventObject e) {
-                    return false;
-                }
-            };
-            stats.setTableHeader(null);
-            stats.getColumnModel().getColumn(0).setPreferredWidth(50);
-            stats.getColumnModel().getColumn(1).setPreferredWidth(180);
-            stats.getColumnModel().getColumn(2).setPreferredWidth(50);
-            stats.setFillsViewportHeight(true);
-            stats.setRowHeight(20);
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-            stats.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
-            stats.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
-            stats.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
-
-            scrollPane2 = new JScrollPane(stats);
-            scrollPane2.setLocation(200, 250);
-            scrollPane2.setSize(300,122);
-            getContentPane().add(scrollPane2,BorderLayout.CENTER);
+            scrollPane2.setVisible(true);
             stats.setVisible(true);
+
+
 
 
 
@@ -471,33 +495,10 @@ public class Interface extends JFrame implements ActionListener {
             info.setVisible(false);
             scrollPane2.setVisible(false);
 
-            leagueTable = new JTable(rows,columns){
-                public boolean editCellAt(int row, int column, java.util.EventObject e) {
-                    return false;
-                }
-            };
-            leagueTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-            leagueTable.getColumnModel().getColumn(1).setPreferredWidth(180);
-            leagueTable.setFillsViewportHeight(true);
-            leagueTable.setRowHeight(25);
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-            leagueTable.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(4).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(5).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(6).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(7).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(8).setCellRenderer( centerRenderer );
-            leagueTable.getColumnModel().getColumn(9).setCellRenderer( centerRenderer );
 
-
-            scrollPane = new JScrollPane(leagueTable);
-            scrollPane.setLocation(50, 100);
-            scrollPane.setSize(600,125);
-            getContentPane().add(scrollPane,BorderLayout.CENTER);
             tournament.table();
             leagueTable.setVisible(true);
+            scrollPane.setVisible(true);
 
         } else if (source == statistics) {
             for (JLabel minute : minutes) {
