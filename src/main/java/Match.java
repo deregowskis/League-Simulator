@@ -8,13 +8,13 @@ import java.util.Random;
  */
 public class Match implements Runnable {
     Interface frame;
-    Boolean islast=false;
+    Boolean islast = false;
+
     /**
      * Clubs involved in a game.
      */
     Club team1;
     Club team2;
-
 
     /**
      * probability of events and types of players involved in them.
@@ -48,7 +48,7 @@ public class Match implements Runnable {
     public Match(Club team1, Club team2, Interface frame) {
         this.team1 = team1;
         this.team2 = team2;
-        this.frame=frame;
+        this.frame = frame;
     }
 
     /**
@@ -62,39 +62,31 @@ public class Match implements Runnable {
          * It's based on a loop that runs 90 times - one for every minute.
          */
         frame.headerHost.setText(team1.toString());
-        frame.headerHost.setBounds((int) (300-team1.toString().length()*11.8)/2, 50, 300, 200);
+        frame.headerHost.setBounds((int) (300 - team1.toString().length() * 11.8) / 2, 50, 300, 200);
         frame.headerGuest.setText(team2.toString());
-        frame.headerGuest.setBounds((int) (400+(300-team2.toString().length()*11.8)/2), 50, 300, 200);
-        frame.logoHost.setIcon(new ImageIcon((new ImageIcon("Logos/"+team1+".png")).getImage().
+        frame.headerGuest.setBounds((int) (400 + (300 - team2.toString().length() * 11.8) / 2), 50, 300, 200);
+        frame.logoHost.setIcon(new ImageIcon((new ImageIcon("Logos/" + team1 + ".png")).getImage().
                 getScaledInstance(70, 70, Image.SCALE_AREA_AVERAGING)));
-        frame.logoGuest.setIcon(new ImageIcon((new ImageIcon("Logos/"+team2+".png")).getImage().
+        frame.logoGuest.setIcon(new ImageIcon((new ImageIcon("Logos/" + team2 + ".png")).getImage().
                 getScaledInstance(70, 70, Image.SCALE_AREA_AVERAGING)));
-        frame.score.setBounds(300,50,100,200);
-        frame.time.setBounds(335,50,100,50);
+        frame.score.setBounds(300, 50, 100, 200);
+        frame.time.setBounds(335, 50, 100, 50);
         try {
-
-
             for (int i = 1; i < 91; i++) {
-
                 frame.score.setText(team1.currentGoals + "  :  " + team2.currentGoals);
-                if(i>1 & !frame.skip){
-                    statistics(i-1);
-                        Thread.sleep(500);
-                    }
-
-
+                if (i > 1 & !frame.skip) {
+                    statistics(i - 1);
+                    Thread.sleep(500);
+                }
 
                 /**
                  * Ball possesion update
                  */
-
-
                 if (possesionTeam1) {
                     possesion1counter += 1;
                 } else {
                     possesion2counter += 1;
                 }
-
 
                 /**
                  * When the possesion is changed in this minute, nothing else may happen.
@@ -102,7 +94,7 @@ public class Match implements Runnable {
                 if (r.nextDouble() < changePossesion) {
                     possesionTeam1 = !possesionTeam1;
                     printMinutes(i);
-                    frame.time.setText(i+"'");
+                    frame.time.setText(i + "'");
                     continue;
                 }
 
@@ -134,10 +126,10 @@ public class Match implements Runnable {
                          */
                         if (possesionTeam1) {
                             team2.getPosition(position).get(r.nextInt((team2.getPosition(position)).size()))
-                                    .foul(team1.players.get(r.nextInt(11)),i);
+                                    .foul(team1.players.get(r.nextInt(11)), i);
                         } else {
                             team1.getPosition(position).get(r.nextInt((team1.getPosition(position)).size()))
-                                    .foul(team2.players.get(r.nextInt(11)),i);
+                                    .foul(team2.players.get(r.nextInt(11)), i);
                         }
                     } else {
 
@@ -171,6 +163,7 @@ public class Match implements Runnable {
                                                         .get(r.nextInt((team1.getPosition(assistantPosition)).size())),
                                                 team2.getPosition(Position.GOALKEEPER).get(0), i);
                             } else {
+
                                 /**
                                  * The same player cannot both have an assist and score.
                                  */
@@ -182,7 +175,7 @@ public class Match implements Runnable {
                                 team1.getPosition(position).get(notthesame1)
                                         .shoot(team1.getPosition(assistantPosition)
                                                         .get(notthesame2),
-                                                team2.getPosition(Position.GOALKEEPER).get(0),i);
+                                                team2.getPosition(Position.GOALKEEPER).get(0), i);
                             }
                             possesionTeam1 = false;
                         } else {
@@ -190,7 +183,7 @@ public class Match implements Runnable {
                                 team2.getPosition(position).get(r.nextInt((team2.getPosition(position)).size()))
                                         .shoot(team2.getPosition(assistantPosition)
                                                         .get(r.nextInt((team2.getPosition(assistantPosition)).size())),
-                                                team1.getPosition(Position.GOALKEEPER).get(0),i);
+                                                team1.getPosition(Position.GOALKEEPER).get(0), i);
                             } else {
                                 int notthesame1 = r.nextInt((team2.getPosition(position)).size());
                                 int notthesame2 = r.nextInt((team2.getPosition(assistantPosition)).size());
@@ -200,37 +193,36 @@ public class Match implements Runnable {
                                 team2.getPosition(position).get(notthesame1)
                                         .shoot(team2.getPosition(assistantPosition)
                                                         .get(notthesame2),
-                                                team1.getPosition(Position.GOALKEEPER).get(0),i);
+                                                team1.getPosition(Position.GOALKEEPER).get(0), i);
                             }
                             possesionTeam1 = true;
                         }
                     }
-                    frame.time.setText(i+"'");
+                    frame.time.setText(i + "'");
                     continue;
                 }
+
                 /**
                  * Otherwise nothing happens.
                  */
-                frame.time.setText(i+"'");
+                frame.time.setText(i + "'");
                 printMinutes(i);
             }
             frame.score.setText(team1.currentGoals + "  :  " + team2.currentGoals);
             statistics(90);
             endgame();
 
-
-
-
-            if(islast) {
+            /**
+             * If this is the last game, the proper information is displayed and "Next match" button is disabled.
+             */
+            if (islast) {
                 Thread.sleep(4000);
-                for(JLabel x: frame.minutes){
-                    x.setVisible(false);
-
-                }
-                for(JLabel x: frame.classificationstat){
+                for (JLabel x : frame.minutes) {
                     x.setVisible(false);
                 }
-
+                for (JLabel x : frame.classificationstat) {
+                    x.setVisible(false);
+                }
                 frame.nextMatch.setEnabled(false);
                 frame.skipMatch.setVisible(false);
                 frame.headerHost.setVisible(false);
@@ -241,26 +233,17 @@ public class Match implements Runnable {
                 frame.time.setVisible(false);
                 frame.info.setVisible(true);
                 frame.info.setText("Tournament has ended!");
-                frame.info.setBounds(100,300,500,100);
+                frame.info.setBounds(100, 300, 500, 100);
                 frame.info.setFont(new Font("Verdana", Font.BOLD, 30));
-            }
-            else {
-
+            } else {
                 frame.nextMatch.setEnabled(true);
             }
             frame.statistics.setEnabled(true);
             frame.table.setEnabled(true);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
 
     /**
      * Method endgame() is used to update data about teams' results when it's finished.
@@ -297,8 +280,7 @@ public class Match implements Runnable {
     }
 
     /**
-     * Method statistics prints the match statistics to the viever.
-     * (Note: it's not a final form).
+     * Method statistics updates a stats table during a game.
      */
     void statistics(int i) {
         double possesion1 = Math.round((possesion1counter / i) * 100);
@@ -318,26 +300,29 @@ public class Match implements Runnable {
         frame.stats.setValueAt(String.valueOf(team2.currentReds), 5, 2);
     }
 
+    /**
+     * Method printMinutes() is used in displaying minutes during the game, when no action took place.
+     * It requires a following parameter:
+     * @param i -th minute
+     */
+    void printMinutes(int i) {
+        if (i == 1) {
+            frame.minutes.get(0).setText(i + "':");
+        } else if (i == 2) {
+            frame.minutes.get(1).setText(i + "':");
+        } else if (i == 3) {
+            frame.minutes.get(2).setText(i + "':");
+        } else if (i == 4) {
+            frame.minutes.get(3).setText(i + "':");
+        } else if (i == 5) {
+            frame.minutes.get(4).setText(i + "':");
 
-    void printMinutes(int i){
-        if(i==1){
-            frame.minutes.get(0).setText(i+"':");}
-        else if(i==2){
-            frame.minutes.get(1).setText(i+"':");}
-        else if(i==3){
-            frame.minutes.get(2).setText(i+"':");}
-        else if(i==4){
-            frame.minutes.get(3).setText(i+"':");}
-        else if (i==5){
-            frame.minutes.get(4).setText(i+"':");
-
-        }
-        else{
+        } else {
             frame.minutes.get(0).setText(frame.minutes.get(1).getText());
             frame.minutes.get(1).setText(frame.minutes.get(2).getText());
             frame.minutes.get(2).setText(frame.minutes.get(3).getText());
             frame.minutes.get(3).setText(frame.minutes.get(4).getText());
-            frame.minutes.get(4).setText(i+"':");
+            frame.minutes.get(4).setText(i + "':");
         }
     }
 }
