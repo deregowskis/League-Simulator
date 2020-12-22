@@ -234,14 +234,16 @@ public class Match implements Runnable {
                 }
                 frame.nextMatch.setEnabled(false);
                 frame.skipMatch.setVisible(false);
-                frame.headerHost.setVisible(true);
+                frame.headerHost.setVisible(false);
                 frame.headerGuest.setVisible(false);
                 frame.logoHost.setVisible(false);
                 frame.logoGuest.setVisible(false);
                 frame.score.setVisible(false);
                 frame.time.setVisible(false);
-                frame.headerHost.setText("Tournament has ended!");
-                frame.headerHost.setFont(new Font("Verdana", Font.BOLD, 25));
+                frame.info.setVisible(true);
+                frame.info.setText("Tournament has ended!");
+                frame.info.setBounds(100,300,500,100);
+                frame.info.setFont(new Font("Verdana", Font.BOLD, 30));
             }
             else {
 
