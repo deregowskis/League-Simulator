@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Random;
 
@@ -229,9 +230,7 @@ public class Match implements Runnable {
                 for(JLabel x: frame.classificationstat){
                     x.setVisible(false);
                 }
-                for(JLabel x: frame.statisticsLabels){
-                    x.setVisible(false);
-                }
+
                 frame.nextMatch.setEnabled(false);
                 frame.skipMatch.setVisible(false);
                 frame.headerHost.setVisible(false);
@@ -305,15 +304,18 @@ public class Match implements Runnable {
         double possesion1 = Math.round((possesion1counter / i) * 100);
         double possesion2 = Math.round((possesion2counter / i) * 100);
 
-        frame.statisticsLabels.get(0).setText("             Statistics");
-        frame.statisticsLabels.get(0).setFont(new Font("Verdana", Font.BOLD, 13));
-        frame.statisticsLabels.get(1).setText((int) possesion1 + "%" + "    POSSESION    " + (int) possesion2 +"%");
-        frame.statisticsLabels.get(2).setText(team1.currentshoots + "       SHOOTS        " + team2.currentshoots);
-        frame.statisticsLabels.get(3).setText(team1.currentShootsonTarget + "      ON TARGET      " + team2.currentShootsonTarget);
-        frame.statisticsLabels.get(4).setText(team1.currentFouls + "       FOULS         " + team2.currentFouls);
-        frame.statisticsLabels.get(5).setText(team1.currentYellows + "    YELLOW CARDS     " + team2.currentYellows);
-        frame.statisticsLabels.get(6).setText(team1.currentReds + "      RED CARDS      " + team2.currentReds);
-
+        frame.stats.setValueAt(String.valueOf(possesion1), 0, 0);
+        frame.stats.setValueAt(String.valueOf(team1.currentshoots), 1, 0);
+        frame.stats.setValueAt(String.valueOf(team1.currentShootsonTarget), 2, 0);
+        frame.stats.setValueAt(String.valueOf(team1.currentFouls), 3, 0);
+        frame.stats.setValueAt(String.valueOf(team1.currentYellows), 4, 0);
+        frame.stats.setValueAt(String.valueOf(team1.currentReds), 5, 0);
+        frame.stats.setValueAt(String.valueOf(possesion2), 0, 2);
+        frame.stats.setValueAt(String.valueOf(team2.currentshoots), 1, 2);
+        frame.stats.setValueAt(String.valueOf(team2.currentShootsonTarget), 2, 2);
+        frame.stats.setValueAt(String.valueOf(team2.currentFouls), 3, 2);
+        frame.stats.setValueAt(String.valueOf(team2.currentYellows), 4, 2);
+        frame.stats.setValueAt(String.valueOf(team2.currentReds), 5, 2);
     }
 
 

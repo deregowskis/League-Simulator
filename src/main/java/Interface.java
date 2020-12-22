@@ -32,7 +32,11 @@ public class Interface extends JFrame implements ActionListener {
     JTable leagueTable;
     String[] columns;
     String[][] rows;
+    String[] stats_headers;
+    String[][] stats_data;
     JScrollPane scrollPane;
+    JTable stats;
+    JScrollPane scrollPane2;
 
     ArrayList<JLabel> minutes = new ArrayList<>() {
         {
@@ -58,14 +62,6 @@ public class Interface extends JFrame implements ActionListener {
         }
     };
 
-
-    ArrayList<JLabel> statisticsLabels = new ArrayList<>() {
-        {
-            for (int i = 0; i < 7; i++) {
-                add(new JLabel());
-            }
-        }
-    };
 
     ArrayList<JRadioButton> RadioBox = new ArrayList<>() {
         {
@@ -140,6 +136,7 @@ public class Interface extends JFrame implements ActionListener {
         setSize(1000, 800);
         setTitle("League Simulator");
         setLayout(null);
+        setResizable(false);
 
         title = new JLabel("LEAGUE SIMULATOR");
         title.setFont(new Font("Verdana", Font.BOLD, 30));
@@ -203,20 +200,21 @@ public class Interface extends JFrame implements ActionListener {
         }
 
         columns = new String[]{"POS.", "TEAM", "GP", "W", "D", "L", "GF", "GA", "GD", "Pts"};
-        rows = new String[][]{{"k","k","k","k","k","k","k","k","k","k"},{"k","k","k","k","k","k","k","k","k","k"},
-                {"k","k","k","k","k","k","k","k","k","k"},{"k","k","k","k","k","k","k","k","k","k"}};
+        rows = new String[][]{{"","","","","","","","","",""},{"","","","","","","","","",""},
+                {"","","","","","","","","",""},{"","","","","","","","","",""}};
 
         leagueTable = new JTable(rows,columns);
-
         leagueTable.setFillsViewportHeight(true);
-        leagueTable.setRowHeight(50);
-
-
         scrollPane = new JScrollPane(leagueTable);
-        scrollPane.setLocation(1, 1);
-        scrollPane.setSize(800,300);
-        getContentPane().add(scrollPane,BorderLayout.CENTER);
-        scrollPane.setVisible(false);
+
+        stats_headers = new String[]{"","",""};
+        stats_data = new String[][]{{"","POSSESION",""},{"","SHOOTS",""},{"","ON TARGET",""},
+                {"","FOULS",""},{"","YELLOW CARDS",""},{"","RED CARDS",""}};
+
+        stats = new JTable(stats_data,stats_headers);
+        stats.setFillsViewportHeight(true);
+        scrollPane2 = new JScrollPane(stats);
+
 
         nextMatch = new JButton("Next Match");
         nextMatch.setFont(new Font("Verdana", Font.BOLD, 15));
@@ -264,18 +262,6 @@ public class Interface extends JFrame implements ActionListener {
             minute.setVisible(false);
             i++;
         }
-        i = 0;
-        for (JLabel stat : statisticsLabels) {
-            stat.setText("");
-            stat.setFont(new Font("Verdana", Font.BOLD, 10));
-            stat.setBounds(260, 180 + i * 35, 700, 25);
-            add(stat);
-            stat.setVisible(false);
-            i++;
-        }
-
-
-
 
         table = new JButton("Table & Fixtures");
         table.setFont(new Font("Verdana", Font.BOLD, 15));
@@ -344,6 +330,7 @@ public class Interface extends JFrame implements ActionListener {
             openSimulator.setVisible(false);
             exit.setVisible(false);
             scrollPane.setVisible(false);
+            scrollPane2.setVisible(false);
             exit.setBounds(700, 550, 200, 100);
             chooseClubs.setVisible(true);
             info.setVisible(true);
@@ -408,9 +395,6 @@ public class Interface extends JFrame implements ActionListener {
                 minute.setVisible(true);
             }
 
-            for (JLabel statistic : statisticsLabels) {
-                statistic.setVisible(true);
-            }
             for(JLabel stat: classificationstat){
                 stat.setVisible(false);
             }
@@ -430,6 +414,31 @@ public class Interface extends JFrame implements ActionListener {
             table.setEnabled(false);
             scrollPane.setVisible(false);
 
+            stats = new JTable(stats_data,stats_headers){
+                public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                    return false;
+                }
+            };
+            stats.setTableHeader(null);
+            stats.getColumnModel().getColumn(0).setPreferredWidth(50);
+            stats.getColumnModel().getColumn(1).setPreferredWidth(180);
+            stats.getColumnModel().getColumn(2).setPreferredWidth(50);
+            stats.setFillsViewportHeight(true);
+            stats.setRowHeight(20);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+            stats.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
+            stats.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
+            stats.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
+
+            scrollPane2 = new JScrollPane(stats);
+            scrollPane2.setLocation(200, 250);
+            scrollPane2.setSize(300,122);
+            getContentPane().add(scrollPane2,BorderLayout.CENTER);
+            stats.setVisible(true);
+
+
+
             try {
                 tournament.run();
             } catch (InterruptedException ex) {
@@ -440,9 +449,7 @@ public class Interface extends JFrame implements ActionListener {
             for (JLabel minute : minutes) {
                 minute.setVisible(false);
             }
-            for (JLabel statistic : statisticsLabels) {
-                statistic.setVisible(false);
-            }
+
             for (JRadioButton button : RadioBox) {
                 button.setVisible(false);
             }
@@ -462,6 +469,7 @@ public class Interface extends JFrame implements ActionListener {
             time.setVisible(false);
             skipMatch.setVisible(false);
             info.setVisible(false);
+            scrollPane2.setVisible(false);
 
             leagueTable = new JTable(rows,columns){
                 public boolean editCellAt(int row, int column, java.util.EventObject e) {
@@ -495,9 +503,7 @@ public class Interface extends JFrame implements ActionListener {
             for (JLabel minute : minutes) {
                 minute.setVisible(false);
             }
-            for (JLabel statistic : statisticsLabels) {
-                statistic.setVisible(false);
-            }
+
             for (JLabel x : tableLabels) {
                 x.setVisible(false);
             }
@@ -512,6 +518,7 @@ public class Interface extends JFrame implements ActionListener {
             time.setVisible(false);
             skipMatch.setVisible(false);
             scrollPane.setVisible(false);
+            scrollPane2.setVisible(false);
 
             for (JRadioButton button : RadioBox) {
                 button.setVisible(true);
@@ -553,7 +560,6 @@ public class Interface extends JFrame implements ActionListener {
                 for(JLabel stat: classificationstat){
                     stat.setVisible(false);
                 }
-                //Print choose type of statistic
 
             }
 
