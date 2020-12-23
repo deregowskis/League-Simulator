@@ -175,13 +175,13 @@ public class Interface extends JFrame implements ActionListener {
 
         info = new JLabel("Choose 4 clubs to play in a league:");
         info.setFont(new Font("Verdana",Font.BOLD,13));
-        info.setBounds(100,40,300,50);
+        info.setBounds(150,40,300,50);
         add(info);
         info.setVisible(false);
 
         note = new JLabel("You have to choose 4 clubs!");
         note.setFont(new Font("Verdana", Font.BOLD, 13));
-        note.setBounds(100, 650, 200, 50);
+        note.setBounds(150, 650, 200, 50);
         add(note);
         note.setVisible(false);
 
@@ -442,6 +442,10 @@ public class Interface extends JFrame implements ActionListener {
             /**
              * Updating visibility
              */
+            if (chosenClubs.size() != 4) {
+                note.setVisible(true);
+                return;
+            }
             note.setVisible(false);
             info.setVisible(false);
             chooseClubs.setVisible(false);
@@ -459,9 +463,8 @@ public class Interface extends JFrame implements ActionListener {
             /**
              * Action performed
              */
-            if (chosenClubs.size() != 4) {
-                note.setVisible(true);
-            } else {
+
+
                 try {
                     tournament = new Tournament(new Club(chosenClubs.get(0), this),
                             new Club(chosenClubs.get(1), this), new Club(chosenClubs.get(2), this), new Club(chosenClubs.get(3), this), this);
@@ -478,7 +481,7 @@ public class Interface extends JFrame implements ActionListener {
                     }
                     i++;
                 }
-            }
+
 
             /**
              * Updating number of chosen clubs in turn to prevent user from choosing incorrect number.
