@@ -215,8 +215,8 @@ public class Match implements Runnable {
             endgame();
             for(int k=0; k<12; k++){
             if(this==frame.tournament.schedule.get(k)){
-                frame.timetables.get(k).setText((team1 + " " + team1Goals+ " : "));
-                frame.timetables.get(k+12).setText((team2Goals + " " + team2));
+                frame.timetables.get(k).setText((team1 + "    " + team1Goals+ " : "));
+                frame.timetables.get(k+12).setText((team2Goals + "    " + team2));
 
 
             }
@@ -250,6 +250,7 @@ public class Match implements Runnable {
                 frame.info.setText("Tournament has ended!");
                 frame.info.setBounds(100, 300, 500, 100);
                 frame.info.setFont(new Font("Verdana", Font.BOLD, 30));
+                frame.scrollPane2.setVisible(false);
             } else {
                 frame.nextMatch.setEnabled(true);
             }

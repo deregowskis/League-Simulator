@@ -330,7 +330,7 @@ public class Interface extends JFrame implements ActionListener {
 
         i = 0;
         for (JLabel labels: timetables) {
-            labels.setText("aaga");
+            labels.setText("");
             if(i<12){
             labels.setBounds((((i) / 6)-1) * 325 + 300, (i % 6) * 50 + 400, 200, 30);}
             else{
@@ -475,9 +475,9 @@ public class Interface extends JFrame implements ActionListener {
                 int i = 0;
                 for (JLabel labels: timetables) {
                     if(i<12){
-                    labels.setText(tournament.schedule.get(i).team1 + " " + "-"+ " : ");}
+                    labels.setText(tournament.schedule.get(i).team1 + "    " + "-"+ " : ");}
                     else{
-                        labels.setText("-"+" "+tournament.schedule.get(i-12).team2);
+                        labels.setText("-"+"    "+tournament.schedule.get(i-12).team2);
                     }
                     i++;
                 }
