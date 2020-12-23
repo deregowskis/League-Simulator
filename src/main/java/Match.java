@@ -9,6 +9,8 @@ import java.util.Random;
 public class Match implements Runnable {
     Interface frame;
     Boolean islast = false;
+    int team1Goals;
+    int team2Goals;
 
     /**
      * Clubs involved in a game.
@@ -208,9 +210,17 @@ public class Match implements Runnable {
                 frame.time.setText(i + "'");
                 printMinutes(i);
             }
-            frame.score.setText(team1.currentGoals + "  :  " + team2.currentGoals);
             statistics(90);
+            frame.score.setText(team1.currentGoals + "  :  " + team2.currentGoals);
             endgame();
+            for(int k=0; k<12; k++){
+            if(this==frame.tournament.schedule.get(k)){
+                frame.timetables.get(k).setText((team1 + " " + team1Goals+ " : "));
+                frame.timetables.get(k+12).setText((team2Goals + " " + team2));
+
+
+            }
+            }
 
             /**
              * If this is the last game, the proper information is displayed and "Next match" button is disabled.
@@ -220,9 +230,14 @@ public class Match implements Runnable {
                 for (JLabel x : frame.minutes) {
                     x.setVisible(false);
                 }
+                for (JLabel x : frame.timetables) {
+                    x.setVisible(false);
+                }
+
                 for (JLabel x : frame.classificationstat) {
                     x.setVisible(false);
                 }
+                frame.scrollPane.setVisible(false);
                 frame.nextMatch.setEnabled(false);
                 frame.skipMatch.setVisible(false);
                 frame.headerHost.setVisible(false);
@@ -259,6 +274,8 @@ public class Match implements Runnable {
         team1.goalsagainst += team2.currentGoals;
         team2.goalsfor += team2.currentGoals;
         team2.goalsagainst += team1.currentGoals;
+        team1Goals=team1.currentGoals;
+        team2Goals=team2.currentGoals;
 
         if (team1.currentGoals > team2.currentGoals) {
             team1.wins += 1;

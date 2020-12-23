@@ -50,6 +50,19 @@ public class Interface extends JFrame implements ActionListener {
         }
     };
 
+    ArrayList<JLabel> timetables = new ArrayList<>() {
+        {
+            for (int i = 0; i < 24; i++) {
+                if(i<12){
+                add(new JLabel("", SwingConstants.RIGHT));}
+                else{
+                    add(new JLabel(""));
+                }
+            }
+        }
+    };
+
+
     ArrayList<JLabel> classificationstat = new ArrayList<>() {
         {
             for (int i = 0; i < 13; i++) {
@@ -315,6 +328,21 @@ public class Interface extends JFrame implements ActionListener {
             i++;
         }
 
+        i = 0;
+        for (JLabel labels: timetables) {
+            labels.setText("aaga");
+            if(i<12){
+            labels.setBounds((((i) / 6)-1) * 325 + 300, (i % 6) * 50 + 400, 200, 30);}
+            else{
+                labels.setBounds((((i-12) / 6)-1) * 325 + 500, ((i-12) % 6) * 50 + 400, 200, 30);}
+
+
+            labels.setFont(new Font("Verdana", Font.BOLD, 11));
+            add(labels);
+            labels.setVisible(false);
+            i++;
+        }
+
         /**
          * Tables used in simulator.
          */
@@ -376,6 +404,9 @@ public class Interface extends JFrame implements ActionListener {
         getContentPane().add(scrollPane2,BorderLayout.CENTER);
         scrollPane2.setVisible(false);
         stats.setVisible(false);
+
+
+
     }
 
     /**
@@ -438,6 +469,15 @@ public class Interface extends JFrame implements ActionListener {
                     ex.printStackTrace();
                 }
                 tournament.addSchedule();
+                int i = 0;
+                for (JLabel labels: timetables) {
+                    if(i<12){
+                    labels.setText(tournament.schedule.get(i).team1 + " " + "-"+ " : ");}
+                    else{
+                        labels.setText("-"+" "+tournament.schedule.get(i-12).team2);
+                    }
+                    i++;
+                }
             }
 
             /**
@@ -473,6 +513,10 @@ public class Interface extends JFrame implements ActionListener {
             for (JLabel x : tableLabels) {
                 x.setVisible(false);
             }
+            for (JLabel label : timetables) {
+                label.setVisible(false);
+            }
+
             headerHost.setVisible(true);
             headerGuest.setVisible(true);
             logoHost.setVisible(true);
@@ -500,6 +544,10 @@ public class Interface extends JFrame implements ActionListener {
             /**
              * Updating visibility
              */
+            for (JLabel label : timetables) {
+                label.setVisible(true);
+            }
+
             for (JLabel minute : minutes) {
                 minute.setVisible(false);
             }
@@ -542,6 +590,9 @@ public class Interface extends JFrame implements ActionListener {
 
             for (JLabel x : tableLabels) {
                 x.setVisible(false);
+            }
+            for (JLabel label : timetables) {
+                label.setVisible(false);
             }
             table.setEnabled(true);
             info.setVisible(false);
