@@ -218,7 +218,7 @@ public class Interface extends JFrame implements ActionListener {
         int i = 0;
         for (JLabel minute : minutes) {
             minute.setText("");
-            minute.setFont(new Font("Verdana", Font.BOLD, 10));
+            minute.setFont(new Font("Verdana", Font.BOLD, 11));
             minute.setBounds(75, 450 + i * 35, 700, 25);
             add(minute);
             minute.setVisible(false);
@@ -228,7 +228,7 @@ public class Interface extends JFrame implements ActionListener {
         i = 0;
         for (JLabel label : tableLabels) {
             label.setText("");
-            label.setFont(new Font("Verdana", Font.BOLD, 10));
+            label.setFont(new Font("Verdana", Font.BOLD, 11));
             label.setBounds(100, 100 + i * 25, 700, 25);
             add(label);
             label.setVisible(false);
@@ -238,7 +238,7 @@ public class Interface extends JFrame implements ActionListener {
         i = 0;
         for (JLabel statistic : classificationstat) {
             statistic.setText("");
-            statistic.setFont(new Font("Verdana", Font.BOLD, 10));
+            statistic.setFont(new Font("Verdana", Font.BOLD, 11));
             statistic.setBounds(100, 100 + i * 25, 700, 25);
             add(statistic);
             statistic.setVisible(false);
@@ -355,6 +355,7 @@ public class Interface extends JFrame implements ActionListener {
                 return false;
             }
         };
+        leagueTable.setFont(new Font("Verdana", Font.BOLD, 11));
         leagueTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         leagueTable.getColumnModel().getColumn(1).setPreferredWidth(180);
         leagueTable.setFillsViewportHeight(true);
@@ -387,6 +388,7 @@ public class Interface extends JFrame implements ActionListener {
             }
         };
         stats.setTableHeader(null);
+        stats.setFont(new Font("Verdana", Font.BOLD, 11));
         stats.getColumnModel().getColumn(0).setPreferredWidth(50);
         stats.getColumnModel().getColumn(1).setPreferredWidth(180);
         stats.getColumnModel().getColumn(2).setPreferredWidth(50);
