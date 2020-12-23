@@ -41,6 +41,10 @@ public class Interface extends JFrame implements ActionListener {
     JScrollPane scrollPane;
     JTable stats;
     JScrollPane scrollPane2;
+    JTable classifications;
+    JScrollPane scrollPane3;
+    String[][] classifications_data;
+    String[] classifications_column;
 
     ArrayList<JLabel> minutes = new ArrayList<>() {
         {
@@ -53,9 +57,9 @@ public class Interface extends JFrame implements ActionListener {
     ArrayList<JLabel> timetables = new ArrayList<>() {
         {
             for (int i = 0; i < 24; i++) {
-                if(i<12){
-                add(new JLabel("", SwingConstants.RIGHT));}
-                else{
+                if (i < 12) {
+                    add(new JLabel("", SwingConstants.RIGHT));
+                } else {
                     add(new JLabel(""));
                 }
             }
@@ -151,7 +155,7 @@ public class Interface extends JFrame implements ActionListener {
     /**
      * Constructor itself needs no argument. It specifies positions off all labels, buttons, etc.
      */
-    public Interface(){
+    public Interface() {
         /**
          * General settings
          */
@@ -174,8 +178,8 @@ public class Interface extends JFrame implements ActionListener {
         add(authors);
 
         info = new JLabel("Choose 4 clubs to play in a league:");
-        info.setFont(new Font("Verdana",Font.BOLD,13));
-        info.setBounds(150,40,300,50);
+        info.setFont(new Font("Verdana", Font.BOLD, 13));
+        info.setBounds(150, 40, 300, 50);
         add(info);
         info.setVisible(false);
 
@@ -250,7 +254,7 @@ public class Interface extends JFrame implements ActionListener {
          */
         openSimulator = new JButton("Open simulator");
         openSimulator.setBounds(400, 300, 200, 100);
-        openSimulator.setFont(new Font("Verdana",Font.BOLD,15));
+        openSimulator.setFont(new Font("Verdana", Font.BOLD, 15));
         add(openSimulator);
         openSimulator.addActionListener(this);
 
@@ -329,12 +333,13 @@ public class Interface extends JFrame implements ActionListener {
         }
 
         i = 0;
-        for (JLabel labels: timetables) {
+        for (JLabel labels : timetables) {
             labels.setText("");
-            if(i<12){
-            labels.setBounds((((i) / 6)-1) * 325 + 300, (i % 6) * 50 + 400, 200, 30);}
-            else{
-                labels.setBounds((((i-12) / 6)-1) * 325 + 500, ((i-12) % 6) * 50 + 400, 200, 30);}
+            if (i < 12) {
+                labels.setBounds((((i) / 6) - 1) * 325 + 300, (i % 6) * 50 + 400, 200, 30);
+            } else {
+                labels.setBounds((((i - 12) / 6) - 1) * 325 + 500, ((i - 12) % 6) * 50 + 400, 200, 30);
+            }
 
 
             labels.setFont(new Font("Verdana", Font.BOLD, 11));
@@ -347,10 +352,10 @@ public class Interface extends JFrame implements ActionListener {
          * Tables used in simulator.
          */
         columns = new String[]{"POS.", "TEAM", "GP", "W", "D", "L", "GF", "GA", "GD", "Pts"};
-        rows = new String[][]{{"","","","","","","","","",""},{"","","","","","","","","",""},
-                {"","","","","","","","","",""},{"","","","","","","","","",""}};
+        rows = new String[][]{{"", "", "", "", "", "", "", "", "", ""}, {"", "", "", "", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", "", "", "", ""}, {"", "", "", "", "", "", "", "", "", ""}};
 
-        leagueTable = new JTable(rows,columns){
+        leagueTable = new JTable(rows, columns) {
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
                 return false;
             }
@@ -361,28 +366,28 @@ public class Interface extends JFrame implements ActionListener {
         leagueTable.setFillsViewportHeight(true);
         leagueTable.setRowHeight(25);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        leagueTable.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(3).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(4).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(5).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(6).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(7).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(8).setCellRenderer( centerRenderer );
-        leagueTable.getColumnModel().getColumn(9).setCellRenderer( centerRenderer );
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        leagueTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
+        leagueTable.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
         leagueTable.setVisible(false);
 
         scrollPane = new JScrollPane(leagueTable);
         scrollPane.setLocation(50, 100);
-        scrollPane.setSize(600,125);
-        getContentPane().add(scrollPane,BorderLayout.CENTER);
+        scrollPane.setSize(600, 125);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
         scrollPane.setVisible(false);
 
-        stats_headers = new String[]{"","",""};
-        stats_data = new String[][]{{"","POSSESION",""},{"","SHOOTS",""},{"","ON TARGET",""},
-                {"","FOULS",""},{"","YELLOW CARDS",""},{"","RED CARDS",""}};
+        stats_headers = new String[]{"", "", ""};
+        stats_data = new String[][]{{"", "POSSESION", ""}, {"", "SHOOTS", ""}, {"", "ON TARGET", ""},
+                {"", "FOULS", ""}, {"", "YELLOW CARDS", ""}, {"", "RED CARDS", ""}};
 
-        stats = new JTable(stats_data,stats_headers){
+        stats = new JTable(stats_data, stats_headers) {
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
                 return false;
             }
@@ -395,17 +400,48 @@ public class Interface extends JFrame implements ActionListener {
         stats.setFillsViewportHeight(true);
         stats.setRowHeight(20);
         DefaultTableCellRenderer centerRenderer2 = new DefaultTableCellRenderer();
-        centerRenderer2.setHorizontalAlignment( JLabel.CENTER );
-        stats.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
-        stats.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
-        stats.getColumnModel().getColumn(2).setCellRenderer( centerRenderer );
+        centerRenderer2.setHorizontalAlignment(JLabel.CENTER);
+        stats.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        stats.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        stats.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
         scrollPane2 = new JScrollPane(stats);
         scrollPane2.setLocation(200, 250);
-        scrollPane2.setSize(300,122);
-        getContentPane().add(scrollPane2,BorderLayout.CENTER);
+        scrollPane2.setSize(300, 122);
+        getContentPane().add(scrollPane2, BorderLayout.CENTER);
         scrollPane2.setVisible(false);
-        stats.setVisible(false);
+
+
+        classifications_column = new String[]{"Rank","Player","Club", "Count"};
+        classifications_data = new String[][]{{"-","-","-", "-"}, {"-","-","-", "-"}, {"-","-","-", "-"},
+                {"-","-","-", "-"}, {"-","-","-", "-"}, {"-","-","-", "-"}, {"-","-","-", "-"}, {"-","-","-", "-"},
+                {"-","-","-", "-"}, {"-","-","-", "-"}};
+
+
+        classifications = new JTable(classifications_data, classifications_column) {
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }
+        };
+        classifications.setFont(new Font("Verdana", Font.BOLD, 11));
+        classifications.getColumnModel().getColumn(0).setPreferredWidth(35);
+        classifications.getColumnModel().getColumn(1).setPreferredWidth(180);
+        classifications.getColumnModel().getColumn(2).setPreferredWidth(150);
+        classifications.getColumnModel().getColumn(3).setPreferredWidth(50);
+        classifications.setFillsViewportHeight(true);
+        classifications.setRowHeight(30);
+        DefaultTableCellRenderer centerRenderer3 = new DefaultTableCellRenderer();
+        centerRenderer3.setHorizontalAlignment(JLabel.CENTER);
+        classifications.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        classifications.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        classifications.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        classifications.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+
+        scrollPane3 = new JScrollPane(classifications);
+        scrollPane3.setLocation(100, 140);
+        scrollPane3.setSize(415, 324);
+        getContentPane().add(scrollPane3, BorderLayout.CENTER);
+        scrollPane3.setVisible(false);
 
 
 
@@ -413,6 +449,7 @@ public class Interface extends JFrame implements ActionListener {
 
     /**
      * Main method of GUI. Depending on button clicked, the dedicated action is performed.
+     *
      * @param e
      */
     @Override
@@ -467,22 +504,22 @@ public class Interface extends JFrame implements ActionListener {
              */
 
 
-                try {
-                    tournament = new Tournament(new Club(chosenClubs.get(0), this),
-                            new Club(chosenClubs.get(1), this), new Club(chosenClubs.get(2), this), new Club(chosenClubs.get(3), this), this);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            try {
+                tournament = new Tournament(new Club(chosenClubs.get(0), this),
+                        new Club(chosenClubs.get(1), this), new Club(chosenClubs.get(2), this), new Club(chosenClubs.get(3), this), this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            tournament.addSchedule();
+            int i = 0;
+            for (JLabel labels : timetables) {
+                if (i < 12) {
+                    labels.setText(tournament.schedule.get(i).team1 + "    " + "-" + " : ");
+                } else {
+                    labels.setText("-" + "    " + tournament.schedule.get(i - 12).team2);
                 }
-                tournament.addSchedule();
-                int i = 0;
-                for (JLabel labels: timetables) {
-                    if(i<12){
-                    labels.setText(tournament.schedule.get(i).team1 + "    " + "-"+ " : ");}
-                    else{
-                        labels.setText("-"+"    "+tournament.schedule.get(i-12).team2);
-                    }
-                    i++;
-                }
+                i++;
+            }
 
 
             /**
@@ -512,7 +549,7 @@ public class Interface extends JFrame implements ActionListener {
                 minute.setText("");
                 minute.setVisible(true);
             }
-            for(JLabel stat: classificationstat){
+            for (JLabel stat : classificationstat) {
                 stat.setVisible(false);
             }
             for (JLabel x : tableLabels) {
@@ -521,7 +558,7 @@ public class Interface extends JFrame implements ActionListener {
             for (JLabel label : timetables) {
                 label.setVisible(false);
             }
-
+            scrollPane3.setVisible(false);
             headerHost.setVisible(true);
             headerGuest.setVisible(true);
             logoHost.setVisible(true);
@@ -566,6 +603,8 @@ public class Interface extends JFrame implements ActionListener {
             for (JLabel x : tableLabels) {
                 x.setVisible(false);//true
             }
+
+            scrollPane3.setVisible(false);
             table.setEnabled(false);
             statistics.setEnabled(true);
             headerHost.setVisible(false);
@@ -625,17 +664,20 @@ public class Interface extends JFrame implements ActionListener {
              */
         } else if (RadioBox.contains(source)) {
             JRadioButton button = (JRadioButton) source;
+            scrollPane3.setVisible(false);
 
             for (JRadioButton button2 : RadioBox) {
                 if (button2 != button) {
                     button2.setSelected(false);
+
                 }
+
+            }
+            for(int i =0; i<10; i++){
+                classifications_data[i]= new String[]{"-", "-", "-", "-"};
             }
             if (button.isSelected()) {
-                for(JLabel stat: classificationstat){
-                    stat.setText("");
-                    stat.setVisible(true);
-                }
+                scrollPane3.setVisible(true);
 
                 ArrayList<Method> classificationList = new ArrayList<>(Arrays.asList(tournament.getClass().getDeclaredMethods()));
                 for (Method method : classificationList) {
@@ -647,14 +689,10 @@ public class Interface extends JFrame implements ActionListener {
                         }
                     }
                 }
+                return;
 
             }
-            else{
-                for(JLabel stat: classificationstat){
-                    stat.setVisible(false);
-                }
-
-            }
+            scrollPane3.setVisible(false);
 
 
         } else if (source == skipMatch) {
