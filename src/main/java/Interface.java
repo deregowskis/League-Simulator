@@ -582,6 +582,7 @@ public class Interface extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
 
+
         } else if (source == table) {
             /**
              * Updating visibility

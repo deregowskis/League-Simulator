@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.Random;
 
 /**
@@ -91,7 +90,7 @@ public class Player {
             assistant.assists += 1;
             shootsonTarget += 1;
             goalkeeper.goals += 1;
-            printSchoot(1,i,assistant,goalkeeper);
+            printShoot(1,i,assistant,goalkeeper);
             this.club.currentGoals+=1;
             this.club.currentShootsonTarget+=1;
             return;
@@ -100,10 +99,10 @@ public class Player {
             shootsonTarget += 1;
             goalkeeper.shootsonTarget += 1;
             this.club.currentShootsonTarget+=1;
-            printSchoot(2,i,assistant,goalkeeper);
+            printShoot(2,i,assistant,goalkeeper);
             return;
         }
-        printSchoot(3,i,assistant,goalkeeper);
+        printShoot(3,i,assistant,goalkeeper);
 
     }
 
@@ -185,14 +184,15 @@ public class Player {
         return fouled;
     }
 
-    public void printSchoot(int k, int i, Player assistant, Player goalkeeper){
+    public void printShoot(int k, int i, Player assistant, Player goalkeeper){
         String string;
         if(k==1){
             string =  " Great pass from " + assistant.surname + " (" + this.club.name + ") and "
                     + surname + " (" + this.club.name + ") scores a goal!";
         }
         else if(k==2){
-            string = " " + goalkeeper.surname + " (" + goalkeeper.club.name + ") makes a brilliant save.";
+            string = " " + surname + " (" + this.club.name + ") shoots, great save from " +
+                    goalkeeper.surname + " (" + goalkeeper.club.name + ").";
 
 
         }

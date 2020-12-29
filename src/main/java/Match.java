@@ -211,6 +211,7 @@ public class Match implements Runnable {
                 printMinutes(i);
             }
             statistics(90);
+            frame.skipMatch.setVisible(false);
             frame.score.setText(team1.currentGoals + "  :  " + team2.currentGoals);
             endgame();
             for(int k=0; k<12; k++){
