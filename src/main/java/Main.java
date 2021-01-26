@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //
 public class Main {
     public static void main(String[] args) throws Exception {
-        com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Green", "INSERT YOUR LICENSE KEY HERE", "my company");
+        com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Green", "", "");
         UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
         Interface frame = new Interface();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

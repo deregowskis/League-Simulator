@@ -88,7 +88,7 @@ public class Tournament {
     }
 
     /**
-     * topGoalscorers() method creates a list of top 10 goalscorers of a tournament.
+     * Below there are methods used in displaying statistics.
      */
     void topGoalscorers() {
         ArrayList<Player> goalscorers = new ArrayList<>();
@@ -114,9 +114,7 @@ public class Tournament {
         }
     }
 
-    /**
-     * topAssistants() method creates a list of top 10 assistants of a tournament.
-     */
+
     void topAssistants() {
         ArrayList<Player> assistants = new ArrayList<>();
         for (Club team : teams) {
@@ -141,9 +139,6 @@ public class Tournament {
         }
     }
 
-    /**
-     * topCanadians() method creates a list of top 10 players in Canadian classification of a tournament.
-     */
     void topCanadians() {
         ArrayList<Player> canadians = new ArrayList<>();
         for (Club team : teams) {

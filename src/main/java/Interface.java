@@ -674,8 +674,8 @@ public class Interface extends JFrame implements ActionListener {
                 }
 
             }
-            for(int i =0; i<10; i++){
-                classifications_data[i]= new String[]{"-", "-", "-", "-"};
+            for (int i = 0; i < 10; i++) {
+                classifications_data[i] = new String[]{"-", "-", "-", "-"};
             }
             if (button.isSelected()) {
                 scrollPane3.setVisible(true);

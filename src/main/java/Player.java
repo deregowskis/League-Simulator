@@ -184,6 +184,14 @@ public class Player {
         return fouled;
     }
 
+    /**
+     * Method used for presenting actions during the game.
+     * @param k
+     * @param i
+     * @param assistant
+     * @param goalkeeper
+     */
+
     public void printShoot(int k, int i, Player assistant, Player goalkeeper){
         String string;
         if(k==1){
@@ -220,6 +228,13 @@ public class Player {
             frame.minutes.get(4).setText(i+"':"+string);
         }
     }
+
+    /**
+     * Method used for presenting actions during the match.
+     * @param k
+     * @param i
+     * @param player
+     */
     public void printFoul(int k, int i, Player player){
         String string;
         if(k==1){
