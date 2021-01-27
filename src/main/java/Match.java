@@ -260,7 +260,7 @@ public class Match implements Runnable {
                 frame.time.setVisible(false);
                 frame.info.setVisible(true);
                 frame.info.setText("Tournament has ended! You have " + Math.round(frame.tournament.money * 100d) / 100d +"$.");
-                frame.info.setBounds(80, 300, 500, 100);
+                frame.info.setBounds(80, 300, 600, 100);
                 frame.info.setFont(new Font("Verdana", Font.BOLD, 20));
                 frame.scrollPane2.setVisible(false);
             } else {
