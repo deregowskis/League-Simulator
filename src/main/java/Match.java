@@ -1,7 +1,11 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Random;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.round;
 
 /**
  * Class match represents every game that is played in a simulator.
@@ -34,6 +38,15 @@ public class Match implements Runnable {
     Position assistantPosition;
     Random r = new Random();
 
+    DecimalFormat df = new DecimalFormat("#.##");
+    double host = 1.67;
+    double draw = 1.33;
+    double guest = 1.67;
+    double bid;
+    int result;
+    double overall1;
+    double overall2;
+
     /**
      * Parameters connected with ball possesion during the game.
      */
@@ -53,6 +66,7 @@ public class Match implements Runnable {
         this.frame = frame;
     }
 
+
     /**
      * play() is the main method for this class.
      *
@@ -63,16 +77,13 @@ public class Match implements Runnable {
         /**
          * It's based on a loop that runs 90 times - one for every minute.
          */
-        frame.headerHost.setText(team1.toString());
-        frame.headerHost.setBounds((int) (300 - team1.toString().length() * 11.8) / 2, 50, 300, 200);
-        frame.headerGuest.setText(team2.toString());
-        frame.headerGuest.setBounds((int) (400 + (300 - team2.toString().length() * 11.8) / 2), 50, 300, 200);
-        frame.logoHost.setIcon(new ImageIcon((new ImageIcon("Logos/" + team1 + ".png")).getImage().
-                getScaledInstance(70, 70, Image.SCALE_AREA_AVERAGING)));
-        frame.logoGuest.setIcon(new ImageIcon((new ImageIcon("Logos/" + team2 + ".png")).getImage().
-                getScaledInstance(70, 70, Image.SCALE_AREA_AVERAGING)));
+
         frame.score.setBounds(300, 50, 100, 200);
         frame.time.setBounds(335, 50, 100, 50);
+
+
+
+
         try {
             for (int i = 1; i < 91; i++) {
                 frame.score.setText(team1.currentGoals + "  :  " + team2.currentGoals);
@@ -248,9 +259,9 @@ public class Match implements Runnable {
                 frame.score.setVisible(false);
                 frame.time.setVisible(false);
                 frame.info.setVisible(true);
-                frame.info.setText("Tournament has ended!");
-                frame.info.setBounds(100, 300, 500, 100);
-                frame.info.setFont(new Font("Verdana", Font.BOLD, 30));
+                frame.info.setText("Tournament has ended! You have " + Math.round(frame.tournament.money * 100d) / 100d +"$.");
+                frame.info.setBounds(80, 300, 500, 100);
+                frame.info.setFont(new Font("Verdana", Font.BOLD, 20));
                 frame.scrollPane2.setVisible(false);
             } else {
                 frame.nextMatch.setEnabled(true);
@@ -262,12 +273,52 @@ public class Match implements Runnable {
         }
     }
 
+    void bet(){
+        for(int i=0;i<11;i++){
+            overall1 = host + team1.players.get(i).overall;
+            overall2 = guest + team2.players.get(i).overall;
+        }
+        overall1 = overall1/11;
+        overall2 = overall2/11;
+        host = host - (overall1-overall2)*0.3;
+        guest = guest - (overall2-overall1)*0.3;
+        draw = draw + abs(overall1-overall2)*0.2;
+
+        host = Math.round(host * 100d) / 100d;
+        guest = Math.round(guest * 100d) / 100d;
+        draw = Math.round(draw * 100d) / 100d;
+
+    }
+
+    void bid(double input, int result){
+        this.result = result;
+        frame.tournament.money = frame.tournament.money - input;
+        if(result==1) {
+                bid = input * host;
+            }else if(result==2){
+                bid = input * guest;
+            }else{
+                bid = input * draw;
+            };
+
+    }
+
     /**
      * Method endgame() is used to update data about teams' results when it's finished.
      */
     void endgame() {
         team1.count();
         team2.count();
+
+        if(result==1 && team1.currentGoals>team2.currentGoals){
+            frame.tournament.money = frame.tournament.money + bid;
+        }else if(result ==0 && team1.currentGoals==team2.currentGoals){
+            frame.tournament.money = frame.tournament.money + bid;
+        }else if(result == 2 && team1.currentGoals<team2.currentGoals){
+            frame.tournament.money = frame.tournament.money + bid;
+        }
+        frame.moneyinfo.setText("Money: " + Math.round(frame.tournament.money * 100d) / 100d + "$");
+
 
         team1.matches += 1;
         team2.matches += 1;

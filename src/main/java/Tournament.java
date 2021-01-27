@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * Tournament class is used to organise and run all the matches within a special formay.
@@ -13,6 +10,8 @@ public class Tournament {
     ArrayList<Match> schedule = new ArrayList<>();
     int matchNumber = 0;
     Interface frame;
+
+    double money = 1000;
 
     /**
      * Constructor is used to add 4 teams to a tournament:

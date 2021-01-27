@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static java.lang.Double.parseDouble;
 
 public class Interface extends JFrame implements ActionListener {
 
@@ -33,6 +37,12 @@ public class Interface extends JFrame implements ActionListener {
     JButton table;
     JButton statistics;
     JButton skipMatch;
+    JButton hostbet;
+    JButton drawbet;
+    JButton guestbet;
+    JSlider slider;
+    JLabel bidinfo;
+    JLabel moneyinfo;
     JTable leagueTable;
     String[] columns;
     String[][] rows;
@@ -278,6 +288,54 @@ public class Interface extends JFrame implements ActionListener {
         statistics.addActionListener(this);
         statistics.setVisible(false);
 
+        hostbet = new JButton();
+        hostbet.setFont(new Font("Verdana", Font.BOLD, 12));
+        hostbet.setBounds(80, 300, 200, 50);
+        hostbet.addActionListener(this);
+        add(hostbet);
+        hostbet.setVisible(false);
+
+        guestbet = new JButton();
+        guestbet.setFont(new Font("Verdana", Font.BOLD, 12));
+        guestbet.setBounds(480, 300, 200, 50);
+        guestbet.addActionListener(this);
+        add(guestbet);
+        guestbet.setVisible(false);
+
+        drawbet = new JButton();
+        drawbet.setFont(new Font("Verdana", Font.BOLD, 12));
+        drawbet.setBounds(280, 300, 200, 50);
+        drawbet.addActionListener(this);
+        add(drawbet);
+        drawbet.setVisible(false);
+
+        slider = new JSlider();
+        slider.setMaximum(1000);
+        slider.setMinimum(0);
+        slider.setBounds(480, 200, 200, 50);
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+
+                bidinfo.setText("Your bid for this match: " + slider.getValue() + "$");
+            }
+        });
+        add(slider);
+        slider.setVisible(false);
+
+        bidinfo = new JLabel();
+        bidinfo.setFont(new Font("Verdana", Font.BOLD, 12));
+        bidinfo.setBounds(80, 200, 400, 50);
+        add(bidinfo);
+        bidinfo.setVisible(false);
+
+        moneyinfo = new JLabel();
+        moneyinfo.setFont(new Font("Verdana", Font.BOLD, 12));
+        moneyinfo.setBounds(700,50,200,20);
+        add(moneyinfo);
+        moneyinfo.setVisible(false);
+
+
         i = 0;
         for (JRadioButton button : RadioBox) {
             button.setText(classification.get(i));
@@ -367,14 +425,9 @@ public class Interface extends JFrame implements ActionListener {
         leagueTable.setRowHeight(25);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        leagueTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
-        leagueTable.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
+        for(int q =2;i<10;i++){
+            leagueTable.getColumnModel().getColumn(q).setCellRenderer(centerRenderer);
+        }
         leagueTable.setVisible(false);
 
         scrollPane = new JScrollPane(leagueTable);
@@ -498,6 +551,8 @@ public class Interface extends JFrame implements ActionListener {
             table.setVisible(true);
             statistics.setVisible(true);
             exit.setVisible(true);
+            moneyinfo.setVisible(true);
+
 
             /**
              * Action performed
@@ -510,6 +565,7 @@ public class Interface extends JFrame implements ActionListener {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            moneyinfo.setText("Money: " + Math.round(tournament.money * 100d) / 100d + "$");
             tournament.addSchedule();
             int i = 0;
             for (JLabel labels : timetables) {
@@ -563,27 +619,66 @@ public class Interface extends JFrame implements ActionListener {
             headerGuest.setVisible(true);
             logoHost.setVisible(true);
             logoGuest.setVisible(true);
-            score.setVisible(true);
-            time.setVisible(true);
-            skipMatch.setVisible(true);
             nextMatch.setEnabled(false);
+            score.setVisible(false);
+            time.setVisible(false);
             statistics.setEnabled(false);
             table.setEnabled(false);
             scrollPane.setVisible(false);
+            scrollPane2.setVisible(false);
+            stats.setVisible(false);
+
+            headerHost.setText(tournament.schedule.get(tournament.matchNumber).team1.toString());
+            headerHost.setBounds((int) (300 - tournament.schedule.get(tournament.matchNumber).team1.toString().length() * 11.8) / 2, 50, 300, 200);
+            headerGuest.setText(tournament.schedule.get(tournament.matchNumber).team2.toString());
+            headerGuest.setBounds((int) (400 + (300 - tournament.schedule.get(tournament.matchNumber).team2.toString().length() * 11.8) / 2), 50, 300, 200);
+            logoHost.setIcon(new ImageIcon((new ImageIcon("Logos/" + tournament.schedule.get(tournament.matchNumber).team1 + ".png")).getImage().
+                    getScaledInstance(70, 70, Image.SCALE_AREA_AVERAGING)));
+            logoGuest.setIcon(new ImageIcon((new ImageIcon("Logos/" + tournament.schedule.get(tournament.matchNumber).team2 + ".png")).getImage().
+                    getScaledInstance(70, 70, Image.SCALE_AREA_AVERAGING)));
+
+            hostbet.setVisible(true);
+            tournament.schedule.get(tournament.matchNumber).bet();
+            hostbet.setText(tournament.schedule.get(tournament.matchNumber).team1.toString() + ": " + tournament.schedule.get(tournament.matchNumber).host);
+            guestbet.setVisible(true);
+            guestbet.setText(tournament.schedule.get(tournament.matchNumber).team2.toString() + ": " + tournament.schedule.get(tournament.matchNumber).guest);
+            drawbet.setVisible(true);
+            drawbet.setText("X: " + tournament.schedule.get(tournament.matchNumber).draw);
+            slider.setVisible(true);
+            slider.setMaximum((int) tournament.money);
+            bidinfo.setVisible(true);
+            bidinfo.setText("Your bid for this match: " + slider.getValue() + "$");
+
+
+        } else if (source == hostbet || source == drawbet || source == guestbet) {
+            hostbet.setVisible(false);
+            drawbet.setVisible(false);
+            guestbet.setVisible(false);
+            bidinfo.setVisible(false);
+            slider.setVisible(false);
+            score.setVisible(true);
+            time.setVisible(true);
             scrollPane2.setVisible(true);
             stats.setVisible(true);
+            skipMatch.setVisible(true);
 
-            /**
-             * Action performed
-             */
+            if(source == hostbet){
+                tournament.schedule.get(tournament.matchNumber).bid(slider.getValue(),1);
+            }else if(source == guestbet){
+                tournament.schedule.get(tournament.matchNumber).bid(slider.getValue(),2);
+            }else{
+                tournament.schedule.get(tournament.matchNumber).bid(slider.getValue(),0);
+            }
+
             try {
                 tournament.run();
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
 
+        }
 
-        } else if (source == table) {
+        else if (source == table) {
             /**
              * Updating visibility
              */
