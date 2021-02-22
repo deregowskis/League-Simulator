@@ -7,4 +7,4 @@ the results are truly realistic. Comments during simulation are similar to those
 result. Odds are created dependent from team statistics. Apart from that user can see a league table, fixtures and all tournament statistics (top goalscorers,
 assistants, most frequent fouled/fouling players etc.).
 
-Screens from simulator may be found in PPTX file.
+Screens from simulator may be found in PDF file.
